@@ -91,40 +91,13 @@ def build():
 # 执行构建
 
 # build()
-#
 eb=LoadEmbeddingModel.load_embedding_model()
 vector=Chroma(
     persist_directory=r"D:\Project1\final_rag\data\herbal_medicine_data",
     collection_name=r"herbal_medicine_data",
     embedding_function=eb,
 )
-
-#
 retriever=vector.as_retriever(search_kwargs={"k":10})
 query = "肾虚怎么办？"
-
-# 2. 调用 retriever 进行检索
-# invoke 返回的是一个 Document 对象的列表
 docs = retriever.invoke(query)
 print(docs)
-
-# # retriever_with_filter = vector.as_retriever(
-# #     search_kwargs={
-# #         "k": 5,
-# #         "filter": {"disease": "痔疮"}  # 限定只在这个药里找
-# #     }
-# # )
-# # docs = retriever_with_filter.invoke(query)
-# # print(docs)
-# # 检查数据库中是否有“酢浆草”的数据
-# herb_retriever = vector.as_retriever(
-#     search_kwargs={
-#         "k": 10,
-#         "filter": {"drug_name": "酢浆草"}  # 强制只查酢浆草
-#     }
-# )
-# docs = herb_retriever.invoke("痔疮出血怎么办？")
-#
-# print(f"检索到 {len(docs)} 条关于【酢浆草】的记录：")
-# for doc in docs:
-#     print(doc.page_content)
